@@ -1,7 +1,7 @@
 var allFunctions = function () {
   "use strict";
-
   console.log("entering all functions");
+  
   var createTableFromJsonResponse = function (data) {
     document.querySelector("main .forDebug").append(JSON.stringify(data));
 
@@ -56,28 +56,6 @@ var allFunctions = function () {
       });
   };
 
-  var searchFromInput = function () {
-    var postalcodeInput;
-    var countryInput;
-
-    if (document.querySelector("section#geonames input").value !== "") {
-      postalcodeInput = document.querySelector("#postal").value;
-      countryInput = document.querySelector("#countrySelect").value;
-
-      var rows = document.querySelectorAll("#resultsTable tr");
-      for (var i = 1; i < rows.length; i++) {
-        rows[i].remove();
-      }
-
-      document.querySelector("main .messages").innerHTML = "";
-      document.querySelector("main .forDebug").innerHTML = "";
-
-      getPlacenames_plain_javascript(postalcodeInput, countryInput);
-    } else {
-      alert("Enter (first part of) postal code");
-    }
-  };
-
   document
     .querySelector("section#geonames button")
     .addEventListener("click", function (event) {
@@ -91,11 +69,7 @@ var allFunctions = function () {
         searchFromInput();
       }
     });
-  // };
 
-  // document.addEventListener("DOMContentLoaded", allFunctions);
-
-  //   "use strict";
   var anotherGeonamesRequest = function (latitude, longitude) {
     var baseUrl =
       "http://api.geonames.org/findNearestIntersectionOSM?username=bktudelft";
@@ -220,6 +194,7 @@ var allFunctions = function () {
     getAndDisplayMap(wms_request);
   };
 
+
   var searchFromInput = function () {
     var postalcodeInput;
     var countryInput;
@@ -227,12 +202,23 @@ var allFunctions = function () {
     if (document.querySelector("section#geonames input").value !== "") {
       postalcodeInput = document.querySelector("#postal").value;
       countryInput = document.querySelector("#countrySelect").value;
+
       var rows = document.querySelectorAll("#resultsTable tr");
       for (var i = 1; i < rows.length; i++) {
         rows[i].remove();
       }
       document.querySelector("main .messages").textContent = "";
       document.querySelector("main .forDebug").textContent = "";
+
+
+      document.querySelector("main .mapDiv").textContent = "";
+      rows = document.querySelectorAll("#xmlDataAsTable tr");
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].remove();
+      }
+      document.querySelector("main .messages2").textContent = "";
+      document.querySelector("main .forDebug2").textContent = "";
+
 
       getPlacenames_plain_javascript(postalcodeInput, countryInput);
     } else {
@@ -264,6 +250,12 @@ var allFunctions = function () {
           break;
         }
       }
+
+      var rows = document.querySelectorAll("#xmlDataAsTable tr");
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].remove();
+      }
+      document.querySelector("main .forDebug2").textContent = "";
       anotherGeonamesRequest(lat, lng);
     }
 
@@ -272,7 +264,6 @@ var allFunctions = function () {
 
       var lat, lng;
       var children = event.target.parentNode.parentNode.children;
-      // console.log(children)
       for (var i = 0; i < children.length; i++) {
         let elem = children[i];
         if (elem.matches("td[data-col='latitude']")) {
@@ -292,8 +283,7 @@ var allFunctions = function () {
         }
       }
 
-      // let lat = 0
-      // let lng = 0
+      document.querySelector("main .mapDiv").textContent = "";
       requestWMSmap(lat, lng);
     }
   });

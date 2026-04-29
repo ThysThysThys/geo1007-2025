@@ -1,0 +1,24 @@
+body {
+	background: green;
+}
+
+ol {
+	border: 2px solid yellow;
+}
+
+.listB {
+	font-family: sans-serif;
+}
+
+p {
+	border: 5px solid yellow;
+}
+
+.partA {
+	color: red;
+}
+
+.partB {
+	color: blue;
+}
+
