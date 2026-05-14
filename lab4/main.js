@@ -45,19 +45,17 @@ var map = L.map("map-canvas", {
   zoom: 10,
 });
 
-// 2. aerial photo * not working at this moment (see Assignment)
+// 2. aerial photo
 //    - can be switched on/off by toggle thru L.control.layers (see below in this script)
-var wms_aerial_url = "https://geodata1.nationaalgeoregister.nl/luchtfoto/wms?";
+var wms_aerial_url = "https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0";
 var basemap_aerial = new L.tileLayer.wms(wms_aerial_url, {
-  layers: ["luchtfoto_png"],
+  layers: ["Actueel_orthoHR"],
   styles: "",
   format: "image/png",
   transparent: true,
+  attribution: "PDOK",
   pointerCursor: true,
 });
-basemap_aerial.getAttribution = function () {
-  return 'Luchtfoto WMS <a href="https://www.kadaster.nl">Kadaster</a>.';
-};
 
 // 3. a thematic WMS as overlay map
 var wms_sound_url = "https://data.rivm.nl/geo/alo/wms?";
@@ -71,8 +69,42 @@ var sound = new L.tileLayer.wms(wms_sound_url, {
   pointerCursor: true,
 });
 
+// 4. parcels WMS as overlay map
+var wms_parcels_url = "http://localhost:8080/geoserver/lab3/wms?";
+var parcels = new L.tileLayer.wms(wms_parcels_url, {
+  layers: ["parcels"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  pointerCursor: true,
+});
+
+// 5. top10 as overlay maps
+var wms_top10_url = "http://localhost:8080/geoserver/lab3/wms?";
+var top10 = new L.tileLayer.wms(wms_top10_url, {
+  layers: ["GEBOUW_VLAK", "WEGDEEL_VLAK"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  pointerCursor: true,
+});
+
+// 6. PDOK soil type as overlay map
+var pdok_url = "https://service.pdok.nl/tno/bro-bodemkaart/wms/v1_0";
+var pdok = new L.tileLayer.wms(pdok_url, {
+  layers: ["soilarea"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution: "PDOK",
+  pointerCursor: true,
+});
+
 var overlays = {
   "Road noise [WMS]": sound,
+  "Parcels [WMS]": parcels,
+  "Top10 [WMS]": top10,
+  "PDOK soil types": pdok,
 };
 
 var baseLayers = {
